@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>iPhone Case Store · Checkout</title>
+    <link rel="stylesheet" href="/css/checkout.css"/>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml"/>
+</head>
+<body>
+    <main class="page">
+        <header class="store-header">
+            <img class="logo" src="/img/logo.svg" alt="" width="48" height="48"/>
+            <div>
+                <h1>iPhone Case Store</h1>
+                <p class="subtitle">Premium cases · Hong Kong &amp; the Netherlands</p>
+            </div>
+        </header>
+
+        <div class="layout">
+            <!-- ============ Left: basket + options ============ -->
+            <section class="panel" aria-labelledby="basket-title">
+                <h2 id="basket-title">Your basket</h2>
+
+                <!-- Region selector → drives currency (HKD / EUR / USD).
+                     EUR (NL) and HKD (HK) are the two required markets;
+                     USD is included to demonstrate "other currencies" (Part 5). -->
+                <label class="field">
+                    <span>Ship to / currency</span>
+                    <select id="region">
+                        <option value="NL">Netherlands — EUR (&euro;)</option>
+                        <option value="HK">Hong Kong — HKD (HK$)</option>
+                        <option value="US">United States — USD ($)</option>
+                    </select>
+                </label>
+
+                <!-- Basket rows are rendered by flow.js from the injected catalog. -->
+                <div id="basket" class="basket"></div>
+
+                <div class="total-row">
+                    <span>Total</span>
+                    <strong id="total">—</strong>
+                </div>
+
+                <details class="options">
+                    <summary>Checkout options</summary>
+
+                    <!-- (Part 5) Display Flow in another language. -->
+                    <label class="field">
+                        <span>Language</span>
+                        <select id="locale">
+                            <option value="en">English</option>
+                            <option value="nl-NL">Nederlands</option>
+                            <option value="fr-FR">Fran&ccedil;ais</option>
+                        </select>
+                    </label>
+
+                    <!-- (Part 5) Cardholder name + email forwarded to the payment API. -->
+                    <label class="field">
+                        <span>Cardholder name (optional)</span>
+                        <input id="name" type="text" autocomplete="name" placeholder="Jane Appleseed"/>
+                    </label>
+                    <label class="field">
+                        <span>Email (optional)</span>
+                        <input id="email" type="email" autocomplete="email" placeholder="jane@example.com"/>
+                    </label>
+
+                    <!-- (Part 5) Force a 3DS challenge. Off by default. -->
+                    <label class="check">
+                        <input id="force3ds" type="checkbox"/>
+                        <span>Require 3DS authentication</span>
+                    </label>
+                </details>
+            </section>
+
+            <!-- ============ Right: payment (Flow) ============ -->
+            <section class="panel" aria-labelledby="pay-title">
+                <h2 id="pay-title">Payment</h2>
+                <p class="hint">
+                    Card details are entered in Checkout.com's secure fields and never
+                    touch this server (PCI SAQ A). On iPhone/Safari, Apple Pay appears
+                    automatically when enabled on the account.
+                </p>
+
+                <!-- Flow renders the card form + any wallet buttons in here. -->
+                <div id="flow-container"></div>
+
+                <button id="pay-button" class="button" type="button">Continue to payment</button>
+                <a id="start-over" class="link-reset" href="/" hidden>Edit basket / start over</a>
+
+                <p id="message" class="message" role="status"></p>
+
+                <p class="testcard">
+                    <strong>Test card:</strong> 4242 4242 4242 4242 · any future expiry · CVV 100
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Server-injected config: public key (safe to expose) + catalog for the
+         basket display. The server always re-prices the basket before charging. -->
+    <script id="cko-config" type="application/json">{"publicKey":"{{ publicKey }}","catalog":{{ catalogJson }}}</script>
+
+    <!-- Checkout.com Web Components (Flow) -->
+    <script src="https://checkout-web-components.checkout.com/index.js"></script>
+    <!-- Our integration logic. -->
+    <script type="module" src="/js/flow.js"></script>
+</body>
+</html>

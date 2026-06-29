@@ -1,0 +1,62 @@
+plugins {
+    id 'application'
+}
+
+apply plugin: 'java'
+
+version '0.1'
+
+sourceCompatibility = 1.11
+
+description = """
+ Checkout.com Flow integration with a Java Spark based backend
+Project name: ${project.name}
+"""
+
+application {
+    // 'mainClass' (Property<String>) is supported on Gradle 6.4+ and 8.x.
+    mainClass = 'checkout.Application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // --- Kept from the original project (unchanged HTTP/template stack) ---
+    implementation 'com.sparkjava:spark-core:2.9.3'            // tiny HTTP server + routing (get/post)
+    implementation 'org.slf4j:slf4j-simple:1.7.36'            // logging backend for Spark
+    implementation 'com.sparkjava:spark-template-jinjava:2.7.1' // Jinjava (Jinja2) server-side templates
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13' // kept for compatibility / optional use
+    implementation 'org.json:json:20171018'                   // build + parse JSON request/response bodies
+    implementation 'com.google.code.gson:gson:2.12.1'         // JSON responses for a couple of routes
+
+    // We call Checkout.com over plain HTTPS using the JDK's built-in
+    // java.net.http.HttpClient (ships with Java 11+, so no new dependency is
+    // needed). This keeps the original "raw HTTP call" style and makes every
+    // request/response easy to inspect.
+    //
+    // OPTIONAL: if you would rather use the official Checkout.com Java SDK,
+    // uncomment the line below and swap the bodies in CheckoutService.java —
+    // the JSON payloads are identical.
+    //   implementation 'com.checkout:checkout-sdk-java:3.0.7'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'checkout.Application'
+        )
+    }
+}
+
+task customFatJar(type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'checkout.Application'
+    }
+    archiveBaseName = 'checkout-java-online-payments-fat'
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

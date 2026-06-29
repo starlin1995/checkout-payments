@@ -1,0 +1,29 @@
+# =====================================================================
+# Checkout.com configuration
+# ---------------------------------------------------------------------
+# Standard java.util.Properties format ("key = value", one per line).
+# Values are read in checkout/Application.java.
+# =====================================================================
+
+# --- API credentials (shared SANDBOX keys from the case study PDF) ---
+# PUBLIC key  : safe to expose to the browser (used to render Flow).
+# SECRET key  : server-side ONLY (used to authenticate API calls). Never ship it to the client.
+CHECKOUT_PUBLIC_KEY = pk_sbox_your_public_key
+CHECKOUT_SECRET_KEY = sk_sbox_your_secret_key
+
+# Routes the payment through the correct entity / merchant account.
+CHECKOUT_PROCESSING_CHANNEL_ID = pc_your_processing_channel
+
+# --- Hosts ---
+# Sandbox API host. Use https://api.checkout.com for production.
+CHECKOUT_API_BASE_URL = https://api.sandbox.checkout.com
+
+# Public base URL of THIS app, used to build the success/failure redirect URLs
+# that Flow returns the shopper to. Change it if you host elsewhere.
+APP_BASE_URL = http://localhost:8081
+
+# --- (Part 5) Webhook signing key ---
+# Found in Dashboard > Webhooks after you create a webhook. Used to verify the
+# `cko-signature` header on incoming events. Leave blank to skip verification
+# while testing locally (events will still be accepted and logged).
+CHECKOUT_WEBHOOK_KEY =
