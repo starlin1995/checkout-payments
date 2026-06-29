@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Payment received · iPhone Case Store</title>
+    <link rel="stylesheet" href="/css/checkout.css"/>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml"/>
+</head>
+<body>
+    <main class="page narrow">
+        <section class="panel result">
+            <img src="/img/success.svg" alt="" width="72" height="72"/>
+            <h1>Thank you!</h1>
+            <p class="hint">Your payment was processed. Details below are fetched live from Checkout.com.</p>
+
+            <dl class="summary">
+                <div><dt>Status</dt><dd id="status">Checking&hellip;</dd></div>
+                <div><dt>Amount</dt><dd id="amount">&mdash;</dd></div>
+                <div><dt>Reference</dt><dd id="reference">&mdash;</dd></div>
+                <div><dt>Payment ID</dt><dd id="payment-id" class="mono">&mdash;</dd></div>
+            </dl>
+
+            <!-- (Part 5) Refund a captured payment by an entered amount. -->
+            <div id="refund-box" class="refund" hidden>
+                <h2>Refund</h2>
+                <p class="hint">Enter an amount to refund (defaults to the full amount).</p>
+                <div class="refund-row">
+                    <input id="refund-amount" type="number" step="0.01" min="0.01"/>
+                    <button id="refund-button" class="button" type="button">Refund</button>
+                </div>
+                <p id="refund-message" class="message" role="status"></p>
+            </div>
+
+            <a class="link-reset" href="/">Back to the store</a>
+        </section>
+    </main>
+
+    <script type="module" src="/js/success.js"></script>
+</body>
+</html>
