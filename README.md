@@ -5,10 +5,7 @@ and the **Netherlands (EUR)**. It captures card details securely while keeping t
 merchant in the lightest PCI scope, and offers one‑touch wallets (Apple Pay) on
 supported devices.
 
-It is a converted version of an existing **Tony's PSP integration** sample: the HTTP server
-([Spark](https://sparkjava.com/)), the Jinjava templating helper and the JSON
-libraries are all unchanged — **only the payment provider was swapped to
-Checkout.com**.
+It is a converted version of an existing **Tony's PSP integration** sample.
 
 ---
 
@@ -126,8 +123,8 @@ src/main/java/checkout/
   CheckoutService.java  thin Checkout.com REST client (java.net.http.HttpClient)
   Catalog.java          hard-coded products + server-side basket pricing
 src/main/java/view/
-  RenderUtil.java       Jinjava render helper            (unchanged from original)
-  CustomResourceLocator.java  template loader            (unchanged from original)
+  RenderUtil.java       Jinjava render helper            
+  CustomResourceLocator.java  template loader            
 src/main/resources/
   templates/  checkout.html, success.html, failure.html, error.html
   static/css/ checkout.css
